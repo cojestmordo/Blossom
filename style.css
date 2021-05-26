@@ -1,6 +1,5 @@
 body{
     background-color: rgb(69, 78, 78);
-    
 }
 #frame{
     display: flex;
@@ -8,7 +7,6 @@ body{
     justify-content: center;
 }
 #elo{
-    background-color:rgb(9, 65, 68);
     border:1px solid #000000;
 }
 #counter{

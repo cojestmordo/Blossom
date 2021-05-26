@@ -2,22 +2,6 @@ let canvas = document.getElementById("elo");
 let counter = document.getElementById('counter');
 const ctx = canvas.getContext("2d");
 
-const boardx = 400;
-const boardy = 400;
-
-elo.height=boardy;
-elo.widht=boardx
-
-elemLeft = elo.offsetLeft,
-elemTop = elo.offsetTop,
-elements = [];
-
-let posx = 0;
-let posy = 0;
-const size = 50;
-const gap = 5;
-let arr = [];
-
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -27,47 +11,71 @@ function getRandomColor() {
   return color;
 }
 
-// Add event listener for `click` events.
-elo.addEventListener('click', function(event) {
-  var x = event.pageX - elemLeft,
-      y = event.pageY - elemTop;
-      counter.textContent=x + ',' + y;
-      elements.forEach(function(element) {
-      if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-        ctx.fillStyle = 'red';
-        ctx.fillRect(element.left, element.top, element.width, element.height);
-          // alert('elo' + element.color)
-        };
-      }
-);
-}, false);
+const boardx = 600;
+const boardy = 600;
+elo.height = boardy;
+elo.width = boardx
+elemLeft = elo.offsetLeft;
+elemTop = elo.offsetTop;
+let posx = 0;
+let posy = 0;
+const size = 50;
+const gap = 5;
+let cells = [];
+
 
 //2d array filled with objects
-for(let i=0; i<8 ;i++) {
-  arr [i]=[];
-  for(let j=0; j<6 ; j++) {
-    arr[i][j] = new Cell (posx, posy, size, size, getRandomColor());
-    elements.push(arr[i][j])
-    ctx.fillStyle = arr[i][j].color;
-    ctx.fillRect(arr[i][j].left, arr[i][j].top, arr[i][j].width, arr[i][j].height);
+for (let i = 0; i < boardy / size; i++) {
+  cells[i] = [];
+  for (let j = 0; j < boardx / size; j++) {
+    cells[i][j] = new Cell(posx, posy, size, size, 'gray');
+    ctx.fillStyle = cells[i][j].color;
+    ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
     posx += size;
   }
   posx = 0;
   posy += size;
 }
+// Add event listener for `click` events.
+elo.addEventListener('click', createGrass, false);
 
-// Add element.
-// elements.push({
-//     colour: '#05EFFF',
-//     width: 150,
-//     height: 100,
-//     top: 20,
-//     left: 15
-// });
+function createGrass(event){
+  const x = event.pageX - elemLeft
+  const y = event.pageY - elemTop;
+  counter.textContent = x + ',' + y;
+  for (let k = 0; k < cells.length; k++) {
+    let cube = cells[k];
+    cube.forEach(checkElement)
 
-// Render elements.
-// elements.forEach(function(element) {
-
-//     ctx.fillStyle = element.colour;
-//     ctx.fillRect(element.left, element.top, element.width, element.height);
-// });
+    function checkElement (element) {
+      if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
+        if (element.grass === false) {
+          element.color='green'
+          ctx.fillStyle = element.color;
+          ctx.fillRect(element.left, element.top, element.width, element.height);
+          element.grass = true;
+        } else if (element.grass === true) {
+          element.color='gray'
+          ctx.fillStyle = element.color;
+          ctx.fillRect(element.left, element.top, element.width, element.height);
+          element.grass = false;
+        };
+      };
+    }
+  }
+}
+setInterval(change,1000)
+function change(){
+// This loop is for outer array
+for (let i = 0, l1 = cells.length; i < l1; i++) {
+  // This loop is for inner-arrays
+  for (let j = 0, l2 = cells[i].length; j < l2; j++) {
+      // Accessing each elements of inner-array
+      if (cells[i][j].grass===true && cells[i+1][j].grass===true && cells[i-1][j].grass===true && cells[i][j+1].grass===true && cells[i][j-1].grass===true){
+        cells[i][j].color='blue';
+        ctx.fillStyle = cells[i][j].color;
+        ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
+      }
+  }
+}
+}

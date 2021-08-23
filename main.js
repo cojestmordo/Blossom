@@ -11,8 +11,8 @@ function getRandomColor() {
   return color;
 }
 
-const boardx = 600;
-const boardy = 600;
+const boardx = 1200;
+const boardy = 1200;
 elo.height = boardy;
 elo.width = boardx
 elemLeft = elo.offsetLeft;
@@ -22,6 +22,7 @@ let posy = 0;
 const size = 50;
 const gap = 5;
 let cells = [];
+let animals =[];
 
 
 //2d array filled with objects
@@ -49,33 +50,77 @@ function createGrass(event){
 
     function checkElement (element) {
       if (y > element.top && y < element.top + element.height && x > element.left && x < element.left + element.width) {
-        if (element.grass === false) {
-          element.color='green'
+        if (element.moss === false) {
+          element.color='lightgreen'
           ctx.fillStyle = element.color;
           ctx.fillRect(element.left, element.top, element.width, element.height);
-          element.grass = true;
-        } else if (element.grass === true) {
+          element.moss = true;
+        } else if (element.moss === true) {
           element.color='gray'
           ctx.fillStyle = element.color;
           ctx.fillRect(element.left, element.top, element.width, element.height);
-          element.grass = false;
+          element.moss = false;
         };
       };
     }
   }
 }
-setInterval(change,1000)
 function change(){
 // This loop is for outer array
 for (let i = 0, l1 = cells.length; i < l1; i++) {
   // This loop is for inner-arrays
   for (let j = 0, l2 = cells[i].length; j < l2; j++) {
       // Accessing each elements of inner-array
-      if (cells[i][j].grass===true && cells[i+1][j].grass===true && cells[i-1][j].grass===true && cells[i][j+1].grass===true && cells[i][j-1].grass===true){
-        cells[i][j].color='blue';
+      if (cells[i][j].moss===true && cells[i+1][j].moss===true && cells[i-1][j].moss===true && cells[i][j+1].moss===true && cells[i][j-1].moss===true){
+        cells[i][j].color='green';
+        cells[i][j].grass=true;
         ctx.fillStyle = cells[i][j].color;
         ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
+      
+      if (cells[i][j].grass===true && cells[i+1][j].grass===true && cells[i-1][j].grass===true && cells[i][j+1].grass===true && cells[i][j-1].grass===true){
+        cells[i][j].color='darkgreen';
+        cells[i][j].tallGrass=true;
+        ctx.fillStyle = cells[i][j].color;
+        ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
+      
+      if (cells[i][j].tallGrass===true && cells[i+1][j].tallGrass===true && cells[i-1][j].tallGrass===true && cells[i][j+1].tallGrass===true && cells[i][j-1].tallGrass===true){
+        cells[i][j].color='#aa9955';
+        cells[i][j].tree=true;
+        ctx.fillStyle = cells[i][j].color;
+        ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
+      
+      if (cells[i][j].tree===true && cells[i+1][j].tree===true && cells[i-1][j].tree===true && cells[i][j+1].tree===true && cells[i][j-1].tree===true){
+        cells[i][j].color='yellow';
+        cells[i][j].blossom=true;
+        ctx.fillStyle = cells[i][j].color;
+        ctx.fillRect(cells[i][j].left, cells[i][j].top, cells[i][j].width, cells[i][j].height);
+
+        setTimeout(checkSpider,1000)
+
       }
+    }
+  }
+ } 
+}
+}
+}
+
+function checkSpider(){
+  // This loop is for outer array
+  for (let i = 0, l1 = cells.length; i < l1; i++) {
+    // This loop is for inner-arrays
+    for (let j = 0, l2 = cells[i].length; j < l2; j++) {
+      if(cells[i][j].blossom === true || cells[i][j].occupied === false){
+        cells[i][j].occupied = true;
+        animals.push(spider= new Spider(cells[i][j].left, cells[i][j].top,size,'black'))
+       
+      for (let k = 0, l1 = animals.length; k < l1; k++) {
+        ctx.arc(animals[k].left + (size/2), animals[k].top + (size/2), animals[k].large/2, 0, 2 * Math.PI);  
+        ctx.fillStyle = animals[k].color;
+        ctx.fill();
+      }
+      }
+    }
   }
 }
-}
+setInterval(change,2000)

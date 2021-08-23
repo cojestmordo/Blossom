@@ -5,6 +5,9 @@ class Cell {
         this.height = height;
         this.width = width;
         this.color = color;
-        this.grass =false
+        this.moss = false;
+        this.grass = false;
+        this.blossom = false;
+        this.occupuied = false;
     }
 }

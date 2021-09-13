@@ -1,5 +1,5 @@
-import { Cell } from "./cell.js";
-import { Player } from "./player.js";
+import { Cell } from "./classes/cell.js";
+import { Player } from "./classes/player.js";
 
 const elo:any = document.getElementById("app")!;
 const counter = document.getElementById('counter')!;

@@ -1,5 +1,5 @@
-import { Cell } from "./cell.js";
-import { Player } from "./player.js";
+import { Cell } from "./classes/cell.js";
+import { Player } from "./classes/player.js";
 const elo = document.getElementById("app");
 const counter = document.getElementById('counter');
 const ctx = elo.getContext("2d");
@@ -35,20 +35,16 @@ function drawPlayer() {
     ctx.fillRect(playerPosX, playerPosY, player.width, player.height);
 }
 document.addEventListener('keydown', function (event) {
-    if (event.keyCode === 87) {
-        console.log(playerPosY);
+    if (event.key === 'w') {
         playerPosY -= size;
     }
-    else if (event.keyCode === 83) {
-        console.log('down');
+    else if (event.key === 's') {
         playerPosY += size;
     }
-    else if (event.keyCode === 65) {
-        console.log(playerPosY);
+    else if (event.key === 'a') {
         playerPosX -= size;
     }
-    else if (event.keyCode === 68) {
-        console.log('down');
+    else if (event.key === 'd') {
         playerPosX += size;
     }
     function sawMoss() {

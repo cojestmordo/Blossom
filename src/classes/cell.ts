@@ -1,4 +1,7 @@
-export class Cell {
+import{ IsEntity } from '../IsEntity'
+
+
+export class Cell implements IsEntity {
     constructor(
         public left:number, 
         public top:number, 

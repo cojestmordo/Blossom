@@ -1,4 +1,7 @@
-export class Player {
+import{ IsEntity } from '../IsEntity.js'
+
+
+export class Player implements IsEntity{
     constructor(
         public left:number,
         public top:number,

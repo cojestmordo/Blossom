@@ -1,9 +1,9 @@
 import { Cell } from "./cell.js";
 import { Player } from "./player.js";
 
-const elo: any = document.getElementById("app");
-const counter:any = document.getElementById('counter');
-const ctx = elo.getContext("2d");
+const elo:any = document.getElementById("app")!;
+const counter = document.getElementById('counter')!;
+const ctx:CanvasRenderingContext2D = elo.getContext("2d")!;
 
 
 //define board size
@@ -43,13 +43,13 @@ let player = new Player(playerPosX,playerPosY,size,size,'blue');
   }
 
   document.addEventListener('keydown', function (event) {
-    if (event.keyCode === 87) { 
+    if (event.key === 'w') { 
       playerPosY -= size;
-    } else if (event.keyCode === 83) {
+    } else if (event.key === 's') {
       playerPosY += size;}
-      else if (event.keyCode === 65) { 
+      else if (event.key === 'a') { 
         playerPosX -= size;
-      } else if (event.keyCode === 68) {
+      } else if (event.key === 'd') {
         playerPosX += size;
   }
 function sawMoss(){
